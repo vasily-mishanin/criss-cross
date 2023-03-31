@@ -1,0 +1,20 @@
+.zero ellipse {
+  fill: transparent;
+  stroke: darkblue;
+  stroke-width: 5px;
+  stroke-dasharray: 142;
+  stroke-dashoffset: 142;
+  animation: clock-animation 0.5s ease-in;
+  animation-fill-mode: forwards;
+  transform: rotate(20deg);
+  transform-origin: center;
+}
+
+@keyframes clock-animation {
+  0% {
+    stroke-dashoffset: 142;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

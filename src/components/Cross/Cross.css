@@ -1,0 +1,37 @@
+svg path {
+  fill: none;
+  stroke: #000;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: 0.2s;
+}
+
+.svg-1:hover path {
+  d: path('M8,2 L2,8');
+}
+
+.svg-1-1 {
+  animation: cross-1 0.3s forwards;
+}
+.svg-1-2 {
+  animation: cross-2 0.3s forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes cross-1 {
+  from {
+    d: path('M2,2 L2,2');
+  }
+  to {
+    d: path('M2,2 L8,8');
+  }
+}
+
+@keyframes cross-2 {
+  from {
+    d: path('M8,2 L8,2');
+  }
+  to {
+    d: path('M8,2 L2,8');
+  }
+}

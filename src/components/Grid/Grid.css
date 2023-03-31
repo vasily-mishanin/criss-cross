@@ -1,0 +1,10 @@
+.grid {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+h1 {
+  margin-bottom: 10rem;
+}
