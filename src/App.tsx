@@ -3,6 +3,7 @@ import './App.css';
 import { Cross } from './components/Cross/Cross';
 import { Grid } from './components/Grid/Grid';
 import { Modal } from './components/Modal/Modal';
+import { PlayerInfo } from './components/PlayerInfo/PlayerInfo';
 import { Zero } from './components/Zero/Zero';
 import { getRandomNumber } from './utils/helpers';
 
@@ -10,7 +11,7 @@ interface AppProps {}
 
 interface AppState {
   mode: 'PLAY_WITH_HUMAN' | 'PLAY_WITH_ROBOT' | 'NONE';
-  playerOne: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'NONE' };
+  playerOne: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
   playerTwo: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
   nextTurn: 'X' | 'O' | 'NONE';
   gameOver: boolean;
@@ -258,33 +259,49 @@ class App extends Component<AppProps, AppState> {
       );
 
     const gameResult =
-      this.state.gameOver && this.state.winner === 'NONE'
-        ? 'DRAW'
+      this.state.gameOver &&
+      this.state.winner !== 'NONE' &&
+      this.state.winner.win === 'X'
+        ? 'X'
         : this.state.gameOver &&
           this.state.winner !== 'NONE' &&
-          this.state.winner.win === 'X'
-        ? 'X'
-        : 'O';
+          this.state.winner.win === 'O'
+        ? 'O'
+        : 'NONE';
 
     return (
       <div className='app'>
         <h1 className='app__heading'> Criss-Cross Game</h1>
-        {!this.state.gameOver && (
-          <p className='app__message'>
-            Next turn: <span>{nextTurn}</span>
-          </p>
-        )}
-        {this.state.gameOver && (
-          <p className='app__message'>
-            Game Over:{' '}
-            <span>
-              {gameResult !== 'DRAW' ? gameResult + ' wins!' : gameResult}
-            </span>{' '}
-          </p>
-        )}
+        <div className='app__message'>
+          {this.state.gameOver && (
+            <>
+              <span> Game Over! </span>
+              <span>{gameResult === 'NONE' ? 'DRAW' : ''}</span>{' '}
+            </>
+          )}
+        </div>
+        <section className='players-info'>
+          <PlayerInfo
+            title='Player 1'
+            player={this.state.playerOne}
+            nextTurn={this.state.nextTurn}
+            isWinner={gameResult === this.state.playerOne.sign}
+          />
+          <PlayerInfo
+            title='Player 2'
+            player={this.state.playerTwo}
+            nextTurn={this.state.nextTurn}
+            isWinner={gameResult === this.state.playerTwo.sign}
+          />
+        </section>
         <Grid
           handleClick={this.handleCellClick.bind(this)}
           currentCells={this.state.currentCells}
+          winCombination={
+            this.state.winner !== 'NONE'
+              ? this.state.winner.combination
+              : 'NONE'
+          }
         />
         <div className='controls'>
           <button className='controls__btn' onClick={this.handleStartNewGame}>

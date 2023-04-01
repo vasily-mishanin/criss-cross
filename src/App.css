@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 5rem;
+  gap: 1rem;
 
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background-color: aquamarine;
@@ -14,11 +14,21 @@
 }
 
 .app__heading {
-  /* margin-bottom: 3rem; */
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.players-info {
+  height: 170px;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
 }
 
 .app__message {
+  min-height: 30px;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .app__message span {
