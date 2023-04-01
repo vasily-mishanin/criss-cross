@@ -1,7 +1,9 @@
 import { Component, ReactNode } from 'react';
 import './App.css';
+import { Cross } from './components/Cross/Cross';
 import { Grid } from './components/Grid/Grid';
 import { Modal } from './components/Modal/Modal';
+import { Zero } from './components/Zero/Zero';
 import { getRandomNumber } from './utils/helpers';
 
 interface AppProps {}
@@ -15,6 +17,7 @@ interface AppState {
   winner: { win: 'X' | 'O'; combination: [number, number, number] } | 'NONE';
   currentCells: { id: number; zero: boolean; cross: boolean }[];
   winCombinations: [number, number, number][];
+  helpTurn: boolean;
 }
 
 const initialState: AppState = {
@@ -39,6 +42,7 @@ const initialState: AppState = {
     [0, 4, 8],
     [2, 4, 6],
   ],
+  helpTurn: false,
 };
 
 class App extends Component<AppProps, AppState> {
@@ -122,7 +126,7 @@ class App extends Component<AppProps, AppState> {
 
         // keep playing
         if (this.state.mode === 'PLAY_WITH_ROBOT') {
-          this.robotTurn();
+          setTimeout(this.robotTurn, 1000);
         }
       }
     );
@@ -131,30 +135,63 @@ class App extends Component<AppProps, AppState> {
   // ROBOT TURN
 
   robotTurn = () => {
-    let randomCellId = getRandomNumber(0, 8);
-    const selectedCells = this.state.currentCells.map((cell) => cell.id);
-    //find uncheecked cell
-    while (selectedCells.indexOf(randomCellId) === -1) {
-      randomCellId = getRandomNumber(0, 8);
+    if (this.state.gameOver) {
+      return;
     }
 
-    this.setState((prev) => {
-      let updatedCells = [...prev.currentCells];
-      updatedCells[clickedCellIndex] = {
-        ...updatedCells[clickedCellIndex],
-        cross: prev.nextTurn === 'X' ? true : false,
-        zero: prev.nextTurn === 'O' ? true : false,
-      };
+    const robotGuessId = findOptimalIndex(
+      this.state.currentCells,
+      this.state.winCombinations,
+      this.state.playerOne
+    );
 
-      const updatedNextTurn =
-        prev.nextTurn !== 'NONE' && prev.nextTurn === 'X' ? 'O' : 'X';
-      const newState: AppState = {
-        ...prev,
-        currentCells: updatedCells,
-        nextTurn: updatedNextTurn,
-      };
-      return newState;
-    });
+    this.setState(
+      (prev) => {
+        let updatedCells = [...prev.currentCells];
+        updatedCells[robotGuessId] = {
+          ...updatedCells[robotGuessId],
+          cross: prev.nextTurn === 'X' ? true : false,
+          zero: prev.nextTurn === 'O' ? true : false,
+        };
+
+        const updatedNextTurn =
+          prev.nextTurn !== 'NONE' && prev.nextTurn === 'X' ? 'O' : 'X';
+        const newState: AppState = {
+          ...prev,
+          currentCells: updatedCells,
+          nextTurn: updatedNextTurn,
+        };
+        return newState;
+      },
+      // AFTER STATE CHANGES
+      () => {
+        const newWinner = getWinner(
+          this.state.currentCells,
+          this.state.winCombinations
+        );
+
+        if (newWinner !== 'NONE') {
+          this.setState({
+            winner: { win: newWinner.win, combination: newWinner.combination },
+            gameOver: true,
+          });
+          return;
+        }
+
+        // every cell was checked => game over
+        if (this.state.currentCells.every((cell) => cell.zero || cell.cross)) {
+          this.setState({ gameOver: true });
+          return;
+        }
+
+        // if you play with robot and click 'help' then robot should make two turns (help and his ones)
+        if (this.state.helpTurn && this.state.mode === 'PLAY_WITH_ROBOT') {
+          this.setState({ helpTurn: false }, () =>
+            setTimeout(this.robotTurn, 1000)
+          );
+        }
+      }
+    );
   };
 
   handleStartNewGame = () => {
@@ -162,7 +199,9 @@ class App extends Component<AppProps, AppState> {
   };
 
   handleHelpTurn = () => {
-    this.robotTurn();
+    this.setState({ helpTurn: true }, () => {
+      setTimeout(this.robotTurn, 1000);
+    });
   };
 
   //MODAL OPTIONS
@@ -175,14 +214,26 @@ class App extends Component<AppProps, AppState> {
   };
 
   handlePlayWithRobot = () => {
-    this.setState({
-      mode: 'PLAY_WITH_ROBOT',
-      nextTurn: 'X',
-      playerTwo: {
-        sign: this.state.playerOne.sign === 'X' ? 'O' : 'X',
-        type: 'ROBOT',
+    this.setState(
+      {
+        mode: 'PLAY_WITH_ROBOT',
+        nextTurn: 'X',
+        playerTwo: {
+          sign: this.state.playerOne.sign === 'X' ? 'O' : 'X',
+          type: 'ROBOT',
+        },
       },
-    });
+      () => {
+        // start with robot turn if enabled
+        if (
+          this.state.mode === 'PLAY_WITH_ROBOT' &&
+          this.state.playerTwo.type === 'ROBOT' &&
+          this.state.playerTwo.sign === 'X'
+        ) {
+          setTimeout(this.robotTurn, 1000);
+        }
+      }
+    );
   };
 
   handlePlayWithHuman = () => {
@@ -198,11 +249,13 @@ class App extends Component<AppProps, AppState> {
 
   render(): ReactNode {
     const nextTurn =
-      this.state.nextTurn === 'O'
-        ? ' O'
-        : this.state.nextTurn === 'X'
-        ? ' X'
-        : '';
+      this.state.nextTurn === 'O' ? (
+        <Zero />
+      ) : this.state.nextTurn === 'X' ? (
+        <Cross />
+      ) : (
+        ''
+      );
 
     const gameResult =
       this.state.gameOver && this.state.winner === 'NONE'
@@ -235,7 +288,7 @@ class App extends Component<AppProps, AppState> {
         />
         <div className='controls'>
           <button className='controls__btn' onClick={this.handleStartNewGame}>
-            Start New Game
+            Restart
           </button>
           <button className='controls__btn' onClick={this.handleHelpTurn}>
             Help Turn
@@ -298,4 +351,69 @@ function getWinner(
     return { win: 'O', combination: zeroWinComb };
   }
   return 'NONE';
+}
+
+function findOptimalIndex(
+  currentCells: { id: number; zero: boolean; cross: boolean }[],
+  winCombinations: [number, number, number][],
+  rival: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' }
+): number {
+  const rivalCells = currentCells
+    .filter((cell) => {
+      if (rival.sign === 'X') {
+        return cell.cross;
+      }
+      if (rival.sign === 'O') {
+        return cell.zero;
+      }
+    })
+    .map((cell) => cell.id);
+
+  const selectedCells = currentCells.reduce((selected: number[], current) => {
+    if (current.cross || current.zero) {
+      selected.push(current.id);
+    }
+    return selected;
+  }, []);
+
+  console.log('rivalCells', rivalCells);
+  console.log('selectedCells', selectedCells);
+
+  // find FIRST combination, that allow rival to make win turn
+  const dangerousCombination = winCombinations.find((combination) => {
+    let count = 0;
+
+    combination.forEach((id) => {
+      if (rivalCells.includes(id)) {
+        count++;
+      }
+    });
+
+    // if two rival cells are in win combination
+    // AND this combinations MUST have FREE CELL (not in selectedCells)
+    // => dangerous combination
+    if (count === 2 && combination.some((id) => !selectedCells.includes(id))) {
+      return combination;
+    }
+  });
+
+  if (dangerousCombination) {
+    const idToChoose = dangerousCombination.find(
+      (id) => rivalCells.indexOf(id) === -1
+    );
+    if (idToChoose) {
+      console.log('idToChoose ', idToChoose);
+      return idToChoose;
+    } else {
+      throw new Error('Wrong robot algorithm');
+    }
+  } else {
+    // ELSE => just return random free id
+    let randomCellId = getRandomNumber(0, 8);
+    //find unchecked cell
+    while (selectedCells.indexOf(randomCellId) > -1) {
+      randomCellId = getRandomNumber(0, 8);
+    }
+    return randomCellId;
+  }
 }
