@@ -14,19 +14,8 @@ type ModalProps = {
 type ModalState = {};
 
 export class Modal extends Component<ModalProps, ModalState> {
-  // playerOneSign: 'X' | 'O' | 'NONE';
-  // onHumanClick: () => void;
-  // onRobotClick: () => void;
-  // onCrossClick: (sign: 'X' | 'O') => void;
-  // onZeroClick: (sign: 'X' | 'O') => void;
-
   constructor(props: ModalProps, state: ModalState) {
     super(props);
-    // this.playerOneSign = props.playerOneSign;
-    // this.onHumanClick = props.onHumanClick;
-    // this.onRobotClick = props.onRobotClick;
-    // this.onCrossClick = props.onCrossClick;
-    // this.onZeroClick = props.onZeroClick;
   }
 
   render() {
@@ -57,10 +46,18 @@ export class Modal extends Component<ModalProps, ModalState> {
         </div>
 
         <div className='modal__controls'>
-          <button className='modal__btn' onClick={this.props.onRobotClick}>
+          <button
+            className='modal__btn'
+            onClick={this.props.onRobotClick}
+            disabled={this.props.playerOneSign === 'NONE'}
+          >
             Play With Robot
           </button>
-          <button className='modal__btn' onClick={this.props.onHumanClick}>
+          <button
+            className='modal__btn'
+            onClick={this.props.onHumanClick}
+            disabled={this.props.playerOneSign === 'NONE'}
+          >
             Play With Human
           </button>
         </div>

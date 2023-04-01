@@ -11,6 +11,7 @@
 
   background-color: var(--color-gray);
   border-radius: 0.25rem;
+  box-shadow: 0 0 10px 2px gray;
 
   position: absolute;
   left: 0;
@@ -40,7 +41,7 @@
   transition: all 0.2s;
 }
 
-.modal__btn:hover {
+.modal__btn:hover:enabled {
   cursor: pointer;
   border: 2px solid salmon;
 }

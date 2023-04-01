@@ -18,6 +18,11 @@
 }
 
 .app__message {
+  text-align: center;
+}
+
+.app__message span {
+  display: block;
   color: salmon;
 }
 
