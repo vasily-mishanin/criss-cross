@@ -101,6 +101,8 @@ export function Grid({ handleClick, currentCells }: GridProps) {
         zero={currentCells[8].zero}
         cross={currentCells[8].cross}
       />
+
+      <canvas id='canvas' width='240' height='240'></canvas>
     </section>
   );
 }
