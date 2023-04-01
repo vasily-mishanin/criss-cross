@@ -1,0 +1,57 @@
+.modal {
+  width: 350px;
+  height: 400px;
+  padding: 2rem;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  background-color: var(--color-gray);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 10px 2px gray;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin: 0 auto;
+  transform: translateY(-200px);
+}
+
+.modal__heading {
+  text-align: center;
+}
+
+.modal__controls {
+  display: flex;
+  gap: 2rem;
+}
+
+.modal__btn {
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bolder;
+
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  background: var(--color-gray-1);
+  transition: all 0.2s;
+}
+
+.modal__btn:hover:enabled {
+  cursor: pointer;
+  border: 2px solid salmon;
+}
+
+.modal__btn.checked {
+  background-color: salmon;
+}
+
+.modal_signs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
