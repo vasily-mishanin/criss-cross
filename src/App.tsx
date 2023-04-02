@@ -6,6 +6,9 @@ import { Modal } from './components/Modal/Modal';
 import { PlayerInfo } from './components/PlayerInfo/PlayerInfo';
 import { Zero } from './components/Zero/Zero';
 import { getRandomNumber } from './utils/helpers';
+import soundCross from './assets/sound-cross.m4a';
+import soundZero from './assets/sound-zero.m4a';
+import soundOver from './assets/sound-game-over.m4a';
 
 interface AppProps {}
 
@@ -101,6 +104,7 @@ class App extends Component<AppProps, AppState> {
           currentCells: updatedCells,
           nextTurn: updatedNextTurn,
         };
+        this.playSound();
         return newState;
       },
       // after state chages, like useEffect, find winner/DRAW and game over
@@ -162,6 +166,7 @@ class App extends Component<AppProps, AppState> {
           currentCells: updatedCells,
           nextTurn: updatedNextTurn,
         };
+        this.playSound();
         return newState;
       },
       // AFTER STATE CHANGES
@@ -196,6 +201,8 @@ class App extends Component<AppProps, AppState> {
   };
 
   handleStartNewGame = () => {
+    let audioRestart = new Audio(soundOver);
+    audioRestart.play();
     this.setState(initialState);
   };
 
@@ -247,6 +254,13 @@ class App extends Component<AppProps, AppState> {
       },
     });
   };
+
+  playSound() {
+    let currentAudioSourse =
+      this.state.nextTurn === 'X' ? soundCross : soundZero;
+    let audio = new Audio(currentAudioSourse);
+    audio.play();
+  }
 
   render(): ReactNode {
     const nextTurn =

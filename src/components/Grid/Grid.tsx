@@ -1,6 +1,7 @@
 import { Component, createRef } from 'react';
 import { Cell } from '../Cell/Cell';
 import './Grid.css';
+import soundStroke from '../../assets/sound-stroke.m4a';
 
 type GridProps = {
   handleClick: (id: number) => void;
@@ -25,14 +26,18 @@ export class Grid extends Component<GridProps, GridState> {
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (this.props.winCombination !== 'NONE') {
+    setTimeout(() => {
       console.log('DRAW LINE');
-      this.drawLine(this.props.winCombination);
-    }
+      if (this.props.winCombination !== 'NONE') {
+        this.playSound();
+        this.drawLine(this.props.winCombination);
+      }
+    }, 1000);
   }
 
   drawLine(combination: [number, number, number]) {
     console.log('drawLine');
+
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     if (canvas.getContext) {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -99,6 +104,12 @@ export class Grid extends Component<GridProps, GridState> {
           break;
       }
     }
+  }
+
+  playSound() {
+    let currentAudioSourse = soundStroke;
+    let audioCross = new Audio(currentAudioSourse);
+    audioCross.play();
   }
 
   render() {
