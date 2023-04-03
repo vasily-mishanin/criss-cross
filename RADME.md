@@ -6,6 +6,10 @@
 
 - Live Site on Netlify: [https://preeminent-kelpie-32a7a6.netlify.app/](https://preeminent-kelpie-32a7a6.netlify.app/)
 
+- Cross CodePen: [https://codepen.io/vasily-mishanin/pen/BaOegqr](https://codepen.io/vasily-mishanin/pen/BaOegqr)
+
+- O CodePen: [https://codepen.io/vasily-mishanin/pen/rNZgbpM](https://codepen.io/vasily-mishanin/pen/rNZgbpM)
+
 ## My process
 
 ### Built with
