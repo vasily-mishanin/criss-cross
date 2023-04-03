@@ -1,3 +1,48 @@
+## Criss Cross Game
+
+Live Site on Netlify: [https://preeminent-kelpie-32a7a6.netlify.app/](https://preeminent-kelpie-32a7a6.netlify.app/)
+
+### Table of contents
+
+- [Overview](#overview)
+
+- [The challenge](#the-challenge)
+
+- [Screenshot](#screenshot)
+
+- [Links](#links)
+
+- [My process](#my-process)
+
+- [Built with](#built-with)
+
+- [What I learned](#what-i-learned)
+
+- [Continued development](#continued-development)
+
+- [Useful resources](#useful-resources)
+
+- [Author](#author)
+
+- [Acknowledgments](#acknowledgments)
+
+## Overview
+
+"Simple" game of Criss Cross
+
+### The challenge
+
+- [ ] Components must be implemented on classes, no hooks.
+- [ ] Implement "help" button which make computer to set symbol in any empty cell (no need to implement logic just use random cell)
+- [ ] There should be a button to start a new game. At any time you can reset the game and start again
+- [ ] Show information about which player is currently playing and which symbol he use (X or O). You can make so first player use X or assign symbol randomly.
+
+Users are be able to:
+
+- [ ] Play with another user offline
+- [ ] Play with robot offline
+- [ ] Use help button to make a auto turn any time during the game
+
 ### Screenshot
 
 ### Links
