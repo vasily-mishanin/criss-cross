@@ -5,17 +5,31 @@ import { Grid } from './components/Grid/Grid';
 import { Modal } from './components/Modal/Modal';
 import { PlayerInfo } from './components/PlayerInfo/PlayerInfo';
 import { Zero } from './components/Zero/Zero';
-import { getRandomNumber } from './utils/helpers';
+import { findOptimalIndex, getRandomNumber, getWinner } from './utils/helpers';
+import soundCross from './assets/sound-cross.m4a';
+import soundZero from './assets/sound-zero.m4a';
+import soundOver from './assets/sound-game-over.m4a';
+
+export type Player = {
+  sign: 'X' | 'O' | 'NONE';
+  type: 'HUMAN' | 'ROBOT' | 'NONE';
+};
+export type Winner =
+  | { win: 'X' | 'O'; combination: [number, number, number] }
+  | 'NONE';
+export type Mode = 'PLAY_WITH_HUMAN' | 'PLAY_WITH_ROBOT' | 'NONE';
+
+export type NextTurnSign = 'X' | 'O' | 'NONE';
 
 interface AppProps {}
 
 interface AppState {
-  mode: 'PLAY_WITH_HUMAN' | 'PLAY_WITH_ROBOT' | 'NONE';
-  playerOne: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
-  playerTwo: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
-  nextTurn: 'X' | 'O' | 'NONE';
+  mode: Mode;
+  playerOne: Player;
+  playerTwo: Player;
+  nextTurn: NextTurnSign;
   gameOver: boolean;
-  winner: { win: 'X' | 'O'; combination: [number, number, number] } | 'NONE';
+  winner: Winner;
   currentCells: { id: number; zero: boolean; cross: boolean }[];
   winCombinations: [number, number, number][];
   helpTurn: boolean;
@@ -101,6 +115,7 @@ class App extends Component<AppProps, AppState> {
           currentCells: updatedCells,
           nextTurn: updatedNextTurn,
         };
+        this.playSound();
         return newState;
       },
       // after state chages, like useEffect, find winner/DRAW and game over
@@ -162,6 +177,7 @@ class App extends Component<AppProps, AppState> {
           currentCells: updatedCells,
           nextTurn: updatedNextTurn,
         };
+        this.playSound();
         return newState;
       },
       // AFTER STATE CHANGES
@@ -196,6 +212,8 @@ class App extends Component<AppProps, AppState> {
   };
 
   handleStartNewGame = () => {
+    let audioRestart = new Audio(soundOver);
+    audioRestart.play();
     this.setState(initialState);
   };
 
@@ -248,6 +266,13 @@ class App extends Component<AppProps, AppState> {
     });
   };
 
+  playSound() {
+    let currentAudioSourse =
+      this.state.nextTurn === 'X' ? soundCross : soundZero;
+    let audio = new Audio(currentAudioSourse);
+    audio.play();
+  }
+
   render(): ReactNode {
     const nextTurn =
       this.state.nextTurn === 'O' ? (
@@ -275,8 +300,10 @@ class App extends Component<AppProps, AppState> {
         <div className='app__message'>
           {this.state.gameOver && (
             <>
-              <span> Game Over! </span>
-              <span>{gameResult === 'NONE' ? 'DRAW' : ''}</span>{' '}
+              <span className='app__message_title'> Game Over! </span>
+              <span className='app__message_result'>
+                {gameResult === 'NONE' ? 'DRAW' : ''}
+              </span>{' '}
             </>
           )}
         </div>
@@ -302,6 +329,7 @@ class App extends Component<AppProps, AppState> {
               ? this.state.winner.combination
               : 'NONE'
           }
+          winner={this.state.winner}
         />
         <div className='controls'>
           <button className='controls__btn' onClick={this.handleStartNewGame}>
@@ -328,109 +356,3 @@ class App extends Component<AppProps, AppState> {
 }
 
 export default App;
-
-function getWinner(
-  currentCells: { id: number; zero: boolean; cross: boolean }[],
-  winCombinations: [number, number, number][]
-): { win: 'X' | 'O'; combination: [number, number, number] } | 'NONE' {
-  let currentCrossCombinations = currentCells.reduce(
-    (checkedCells: number[], currentCell) => {
-      if (currentCell.cross && !currentCell.zero) {
-        checkedCells.push(currentCell.id);
-      }
-      return checkedCells;
-    },
-    []
-  );
-
-  let currentZeroCombinations = currentCells.reduce(
-    (checkedCells: number[], currentCell) => {
-      if (!currentCell.cross && currentCell.zero) {
-        checkedCells.push(currentCell.id);
-      }
-      return checkedCells;
-    },
-    []
-  );
-
-  let crossWinComb = winCombinations.find((combination) =>
-    combination.every((id) => currentCrossCombinations.indexOf(id) > -1)
-  );
-
-  let zeroWinComb = winCombinations.find((combination) =>
-    combination.every((id) => currentZeroCombinations.indexOf(id) > -1)
-  );
-
-  if (crossWinComb && !zeroWinComb) {
-    return { win: 'X', combination: crossWinComb };
-  }
-  if (!crossWinComb && zeroWinComb) {
-    return { win: 'O', combination: zeroWinComb };
-  }
-  return 'NONE';
-}
-
-function findOptimalIndex(
-  currentCells: { id: number; zero: boolean; cross: boolean }[],
-  winCombinations: [number, number, number][],
-  rival: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' }
-): number {
-  const rivalCells = currentCells
-    .filter((cell) => {
-      if (rival.sign === 'X') {
-        return cell.cross;
-      }
-      if (rival.sign === 'O') {
-        return cell.zero;
-      }
-    })
-    .map((cell) => cell.id);
-
-  const selectedCells = currentCells.reduce((selected: number[], current) => {
-    if (current.cross || current.zero) {
-      selected.push(current.id);
-    }
-    return selected;
-  }, []);
-
-  console.log('rivalCells', rivalCells);
-  console.log('selectedCells', selectedCells);
-
-  // find FIRST combination, that allow rival to make win turn
-  const dangerousCombination = winCombinations.find((combination) => {
-    let count = 0;
-
-    combination.forEach((id) => {
-      if (rivalCells.includes(id)) {
-        count++;
-      }
-    });
-
-    // if two rival cells are in win combination
-    // AND this combinations MUST have FREE CELL (not in selectedCells)
-    // => dangerous combination
-    if (count === 2 && combination.some((id) => !selectedCells.includes(id))) {
-      return combination;
-    }
-  });
-
-  if (dangerousCombination) {
-    const idToChoose = dangerousCombination.find(
-      (id) => rivalCells.indexOf(id) === -1
-    );
-    if (idToChoose) {
-      console.log('idToChoose ', idToChoose);
-      return idToChoose;
-    } else {
-      throw new Error('Wrong robot algorithm');
-    }
-  } else {
-    // ELSE => just return random free id
-    let randomCellId = getRandomNumber(0, 8);
-    //find unchecked cell
-    while (selectedCells.indexOf(randomCellId) > -1) {
-      randomCellId = getRandomNumber(0, 8);
-    }
-    return randomCellId;
-  }
-}

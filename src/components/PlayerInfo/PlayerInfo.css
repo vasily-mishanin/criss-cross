@@ -1,9 +1,11 @@
-.payer-wrapper {
+.player-wrapper {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
 .payer-info {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
   justify-content: flex-start;
 }
@@ -20,10 +22,30 @@
 }
 
 .payer-info__win {
-  color: salmon;
+  color: white;
   font-size: 1.5rem;
+  animation: win-text 0.5s ease-in alternate infinite;
+  transform: scale(1);
 }
 
 .player-active {
-  color: salmon;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--color-dark);
+  text-decoration-line: underline;
+}
+
+.winner {
+  background-color: salmon;
+}
+
+@keyframes win-text {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 }

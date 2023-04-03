@@ -8,7 +8,6 @@
   gap: 1rem;
 
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  background-color: aquamarine;
 
   position: relative;
 }
@@ -16,24 +15,33 @@
 .app__heading {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  color: var(--color-dark);
 }
 
 .players-info {
   height: 170px;
   display: flex;
   flex-flow: column nowrap;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .app__message {
   min-height: 30px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
+  color: var(--color-accent);
 }
 
-.app__message span {
-  display: block;
-  color: salmon;
+.app__message_title {
+}
+
+.app__message_result {
+  margin-left: 1rem;
+  display: inline-block;
+  font-size: 1.5rem;
+  transform: scale(1);
+  animation: win-text 0.5s ease-in infinite alternate;
 }
 
 .controls {
