@@ -87,8 +87,6 @@ Finished for now
 
 ### Useful resources
 
-- [Web Dev Simplified](https://www.youtube.com/@WebDevSimplified) - This helped me to build and use useMultiStepForm custom hook.
-
 ## Me
 
 - Website - [vasmish.com](https://vasmish.com/)

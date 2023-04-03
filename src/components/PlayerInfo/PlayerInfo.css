@@ -22,7 +22,7 @@
 }
 
 .payer-info__win {
-  color: white;
+  color: var(--color-accent);
   font-size: 1.5rem;
   animation: win-text 0.5s ease-in alternate infinite;
   transform: scale(1);
