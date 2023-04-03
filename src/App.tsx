@@ -9,6 +9,7 @@ import { findOptimalIndex, getRandomNumber, getWinner } from './utils/helpers';
 import soundCross from './assets/sound-cross.m4a';
 import soundZero from './assets/sound-zero.m4a';
 import soundOver from './assets/sound-game-over.m4a';
+import IconGitHub from './assets/github.png';
 
 export type Player = {
   sign: 'X' | 'O' | 'NONE';
@@ -296,7 +297,13 @@ class App extends Component<AppProps, AppState> {
 
     return (
       <div className='app'>
-        <h1 className='app__heading'> Criss-Cross Game</h1>
+        <a
+          className='app__heading'
+          href='https://github.com/vasily-mishanin/criss-cross'
+        >
+          <img src={IconGitHub} alt="project's github" />
+          <h1>Criss-Cross Game</h1>
+        </a>
         <div className='app__message'>
           {this.state.gameOver && (
             <>
@@ -339,6 +346,7 @@ class App extends Component<AppProps, AppState> {
             Help Turn
           </button>
         </div>
+
         {/* MODAL */}
         {this.state.mode === 'NONE' && <div className='backdrop'></div>}
         {this.state.mode === 'NONE' && (
