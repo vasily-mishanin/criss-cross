@@ -41,11 +41,12 @@
 .app__message {
   min-height: 30px;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: var(--color-accent);
 }
 
 .app__message_title {
+  text-shadow: 1px 1px black;
 }
 
 .app__message_result {
