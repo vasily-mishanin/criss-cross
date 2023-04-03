@@ -219,6 +219,9 @@ class App extends Component<AppProps, AppState> {
   };
 
   handleHelpTurn = () => {
+    if (this.state.gameOver) {
+      return;
+    }
     this.setState({ helpTurn: true }, () => {
       setTimeout(this.robotTurn, 1000);
     });
