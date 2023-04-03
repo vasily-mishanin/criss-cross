@@ -10,15 +10,26 @@ import soundCross from './assets/sound-cross.m4a';
 import soundZero from './assets/sound-zero.m4a';
 import soundOver from './assets/sound-game-over.m4a';
 
+export type Player = {
+  sign: 'X' | 'O' | 'NONE';
+  type: 'HUMAN' | 'ROBOT' | 'NONE';
+};
+export type Winner =
+  | { win: 'X' | 'O'; combination: [number, number, number] }
+  | 'NONE';
+export type Mode = 'PLAY_WITH_HUMAN' | 'PLAY_WITH_ROBOT' | 'NONE';
+
+export type NextTurnSign = 'X' | 'O' | 'NONE';
+
 interface AppProps {}
 
 interface AppState {
-  mode: 'PLAY_WITH_HUMAN' | 'PLAY_WITH_ROBOT' | 'NONE';
-  playerOne: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
-  playerTwo: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
-  nextTurn: 'X' | 'O' | 'NONE';
+  mode: Mode;
+  playerOne: Player;
+  playerTwo: Player;
+  nextTurn: NextTurnSign;
   gameOver: boolean;
-  winner: { win: 'X' | 'O'; combination: [number, number, number] } | 'NONE';
+  winner: Winner;
   currentCells: { id: number; zero: boolean; cross: boolean }[];
   winCombinations: [number, number, number][];
   helpTurn: boolean;
@@ -316,6 +327,7 @@ class App extends Component<AppProps, AppState> {
               ? this.state.winner.combination
               : 'NONE'
           }
+          winner={this.state.winner}
         />
         <div className='controls'>
           <button className='controls__btn' onClick={this.handleStartNewGame}>

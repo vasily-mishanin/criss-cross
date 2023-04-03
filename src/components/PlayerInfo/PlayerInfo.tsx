@@ -25,8 +25,10 @@ export class PlayerInfo extends Component<PlayerInfoProps> {
         ? 'payer-info__title player-active'
         : 'payer-info__title';
 
+    const playerClass = isWinner ? 'payer-wrapper winner' : 'payer-wrapper';
+
     return (
-      <div className='payer-wrapper'>
+      <div className={playerClass}>
         <p className='payer-info'>
           <span className={playerTitleClass}>{title}</span>
           <img

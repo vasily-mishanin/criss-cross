@@ -2,11 +2,13 @@ import { Component, createRef } from 'react';
 import { Cell } from '../Cell/Cell';
 import './Grid.css';
 import soundStroke from '../../assets/sound-stroke.m4a';
+import type { Winner } from '../../App';
 
 type GridProps = {
   handleClick: (id: number) => void;
   currentCells: { id: number; zero: boolean; cross: boolean }[];
   winCombination: [number, number, number] | 'NONE';
+  winner: Winner;
 };
 
 interface GridState {}
@@ -37,13 +39,15 @@ export class Grid extends Component<GridProps, GridState> {
 
   drawLine(combination: [number, number, number]) {
     console.log('drawLine');
+    const { winner } = this.props;
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     if (canvas.getContext) {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.lineWidth = 4;
-      ctx.strokeStyle = 'blue';
+      ctx.strokeStyle =
+        winner !== 'NONE' && winner.win === 'X' ? 'black' : 'blue';
       let combinationStr = combination.join('');
 
       switch (combinationStr) {
