@@ -1,4 +1,4 @@
-.payer-wrapper {
+.player-wrapper {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
 }
@@ -29,7 +29,9 @@
 }
 
 .player-active {
-  color: salmon;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--color-dark);
+  text-decoration-line: underline;
 }
 
 .winner {
