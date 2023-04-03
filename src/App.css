@@ -13,11 +13,23 @@
 }
 
 .app__heading {
-  font-size: 1.5rem;
   margin-bottom: 1rem;
   color: var(--color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  text-decoration: none;
 }
 
+.app__heading img {
+  width: 20px;
+}
+
+.app__heading h1 {
+  font-size: 1.5rem;
+  text-decoration: none;
+}
 .players-info {
   height: 170px;
   display: flex;
