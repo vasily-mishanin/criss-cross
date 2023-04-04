@@ -39,4 +39,6 @@ a:focus {
   inset: 0 0 0 0;
   background-color: black;
   opacity: 0.7;
+
+  z-index: 5;
 }

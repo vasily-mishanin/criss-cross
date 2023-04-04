@@ -1,5 +1,5 @@
 .modal {
-  /* z-index: 10; */
+  z-index: 10;
   width: 350px;
   height: 400px;
   padding: 2rem;
