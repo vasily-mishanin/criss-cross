@@ -2,7 +2,7 @@ import { Component, ReactNode } from 'react';
 import './App.css';
 import { Cross } from './components/Cross/Cross';
 import { Grid } from './components/Grid/Grid';
-import { Modal } from './components/Modal/Modal';
+import { GameSettings } from './components/GameSettings/GameSetings';
 import { PlayerInfo } from './components/PlayerInfo/PlayerInfo';
 import { Zero } from './components/Zero/Zero';
 import { findOptimalIndex, getRandomNumber, getWinner } from './utils/helpers';
@@ -10,6 +10,7 @@ import soundCross from './assets/sound-cross.m4a';
 import soundZero from './assets/sound-zero.m4a';
 import soundOver from './assets/sound-game-over.m4a';
 import IconGitHub from './assets/github.png';
+import { Modal } from './components/Modal/Modal';
 
 export type Player = {
   sign: 'X' | 'O' | 'NONE';
@@ -213,6 +214,7 @@ class App extends Component<AppProps, AppState> {
   };
 
   handleStartNewGame = () => {
+    this.setBackdrop();
     let audioRestart = new Audio(soundOver);
     audioRestart.play();
     this.setState(initialState);
@@ -237,6 +239,8 @@ class App extends Component<AppProps, AppState> {
   };
 
   handlePlayWithRobot = () => {
+    this.removeBackdrop();
+
     this.setState(
       {
         mode: 'PLAY_WITH_ROBOT',
@@ -260,6 +264,7 @@ class App extends Component<AppProps, AppState> {
   };
 
   handlePlayWithHuman = () => {
+    this.removeBackdrop();
     this.setState({
       mode: 'PLAY_WITH_HUMAN',
       nextTurn: 'X',
@@ -275,6 +280,16 @@ class App extends Component<AppProps, AppState> {
       this.state.nextTurn === 'X' ? soundCross : soundZero;
     let audio = new Audio(currentAudioSourse);
     audio.play();
+  }
+
+  removeBackdrop() {
+    const portal = document.getElementById('backdrop');
+    portal?.classList.remove('backdrop');
+  }
+
+  setBackdrop() {
+    const portal = document.getElementById('backdrop');
+    portal?.classList.add('backdrop');
   }
 
   render(): ReactNode {
@@ -349,17 +364,17 @@ class App extends Component<AppProps, AppState> {
             Help Turn
           </button>
         </div>
-
         {/* MODAL */}
-        {this.state.mode === 'NONE' && <div className='backdrop'></div>}
         {this.state.mode === 'NONE' && (
-          <Modal
-            playerOneSign={this.state.playerOne.sign}
-            onRobotClick={this.handlePlayWithRobot}
-            onHumanClick={this.handlePlayWithHuman}
-            onCrossClick={this.handleonCrossClick}
-            onZeroClick={this.handleonZeroClick}
-          />
+          <Modal>
+            <GameSettings
+              playerOneSign={this.state.playerOne.sign}
+              onRobotClick={this.handlePlayWithRobot}
+              onHumanClick={this.handlePlayWithHuman}
+              onCrossClick={this.handleonCrossClick}
+              onZeroClick={this.handleonZeroClick}
+            />
+          </Modal>
         )}
       </div>
     );
