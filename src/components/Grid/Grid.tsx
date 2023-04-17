@@ -19,10 +19,6 @@ export class Grid extends Component<GridProps, GridState> {
     super(props);
   }
 
-  componentDidMount() {
-    console.log('componentDidMount');
-  }
-
   componentDidUpdate() {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -115,115 +111,25 @@ export class Grid extends Component<GridProps, GridState> {
 
   render() {
     const { handleClick, currentCells } = this.props;
+    console.log('currentCells ', currentCells);
 
     return (
       <section className='grid'>
-        {/* {currentCells.map((cell, index) => {
-          const cellData = { id: index, zero: cell.zero, cross: cell.zero };
+        {currentCells.map((cell) => {
+          const cellData = { id: cell.id, cross: cell.cross, zero: cell.zero };
+          const id = cellData.id;
           return (
             <Cell
               cellData={cellData}
-              top={index !== 0 && index !== 1 && index !== 2}
-              right={index !== 2 && index !== 5 && index !== 8}
-              bottom={index !== 6 && index !== 7 && index !== 8}
-              left={index !== 0 && index !== 3 && index !== 6}
+              top={id !== 0 && id !== 1 && id !== 2}
+              right={id !== 2 && id !== 5 && id !== 8}
+              bottom={id !== 6 && id !== 7 && id !== 8}
+              left={id !== 0 && id !== 3 && id !== 6}
               handleClick={handleClick}
+              key={cell.id}
             />
           );
-        })} */}
-
-        <Cell
-          id={0}
-          top={false}
-          right
-          bottom
-          left={false}
-          handleClick={handleClick}
-          zero={currentCells[0].zero}
-          cross={currentCells[0].cross}
-        />
-        <Cell
-          id={1}
-          top={false}
-          right
-          bottom
-          left
-          handleClick={handleClick}
-          zero={currentCells[1].zero}
-          cross={currentCells[1].cross}
-        />
-        <Cell
-          id={2}
-          top={false}
-          right={false}
-          bottom
-          left
-          handleClick={handleClick}
-          zero={currentCells[2].zero}
-          cross={currentCells[2].cross}
-        />
-        {/* /second row/ */}
-        <Cell
-          id={3}
-          top
-          right
-          bottom
-          left={false}
-          handleClick={handleClick}
-          zero={currentCells[3].zero}
-          cross={currentCells[3].cross}
-        />
-        <Cell
-          id={4}
-          top
-          right
-          bottom
-          left
-          handleClick={handleClick}
-          zero={currentCells[4].zero}
-          cross={currentCells[4].cross}
-        />
-        <Cell
-          id={5}
-          top
-          right={false}
-          bottom
-          left
-          handleClick={handleClick}
-          zero={currentCells[5].zero}
-          cross={currentCells[5].cross}
-        />
-        {/* /third row/ */}
-        <Cell
-          id={6}
-          top
-          right
-          bottom={false}
-          left={false}
-          handleClick={handleClick}
-          zero={currentCells[6].zero}
-          cross={currentCells[6].cross}
-        />
-        <Cell
-          id={7}
-          top
-          right
-          bottom={false}
-          left
-          handleClick={handleClick}
-          zero={currentCells[7].zero}
-          cross={currentCells[7].cross}
-        />
-        <Cell
-          id={8}
-          top
-          right={false}
-          bottom={false}
-          left
-          handleClick={handleClick}
-          zero={currentCells[8].zero}
-          cross={currentCells[8].cross}
-        />
+        })}
 
         <canvas id='canvas' width='240' height='240'></canvas>
       </section>
