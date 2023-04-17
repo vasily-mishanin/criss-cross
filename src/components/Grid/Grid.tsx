@@ -2,12 +2,12 @@ import { Component, createRef } from 'react';
 import { Cell } from '../Cell/Cell';
 import './Grid.css';
 import soundStroke from '../../assets/sound-stroke.m4a';
-import type { Winner } from '../../App';
+import { ESign, Winner } from '../CrissCrossGame/types';
 
 type GridProps = {
   handleClick: (id: number) => void;
   currentCells: { id: number; zero: boolean; cross: boolean }[];
-  winCombination: [number, number, number] | 'NONE';
+  winCombination: [number, number, number] | null;
   winner: Winner;
 };
 
@@ -30,7 +30,7 @@ export class Grid extends Component<GridProps, GridState> {
 
     setTimeout(() => {
       console.log('DRAW LINE');
-      if (this.props.winCombination !== 'NONE') {
+      if (this.props.winCombination !== null) {
         this.playSound();
         this.drawLine(this.props.winCombination);
       }
@@ -46,8 +46,7 @@ export class Grid extends Component<GridProps, GridState> {
       const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.lineWidth = 4;
-      ctx.strokeStyle =
-        winner !== 'NONE' && winner.win === 'X' ? 'black' : 'blue';
+      ctx.strokeStyle = winner && winner.win === ESign.X ? 'black' : 'blue';
       let combinationStr = combination.join('');
 
       switch (combinationStr) {

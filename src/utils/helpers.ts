@@ -1,3 +1,5 @@
+import { ESign, Player } from '../components/CrissCrossGame/types';
+
 export function getRandomNumber(from: number, to: number) {
   let number = from + Math.floor(Math.random() * (to + 1));
   return number;
@@ -6,7 +8,10 @@ export function getRandomNumber(from: number, to: number) {
 export function getWinner(
   currentCells: { id: number; zero: boolean; cross: boolean }[],
   winCombinations: [number, number, number][]
-): { win: 'X' | 'O'; combination: [number, number, number] } | 'NONE' {
+): {
+  win: Exclude<ESign, ESign.NONE>;
+  combination: [number, number, number];
+} | null {
   let currentCrossCombinations = currentCells.reduce(
     (checkedCells: number[], currentCell) => {
       if (currentCell.cross && !currentCell.zero) {
@@ -36,18 +41,19 @@ export function getWinner(
   );
 
   if (crossWinComb && !zeroWinComb) {
-    return { win: 'X', combination: crossWinComb };
+    return { win: ESign.X, combination: crossWinComb };
   }
   if (!crossWinComb && zeroWinComb) {
-    return { win: 'O', combination: zeroWinComb };
+    return { win: ESign.O, combination: zeroWinComb };
   }
-  return 'NONE';
+  return null;
 }
 
 export function findOptimalIndex(
   currentCells: { id: number; zero: boolean; cross: boolean }[],
   winCombinations: [number, number, number][],
-  rival: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' }
+  //rival: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' }
+  rival: Player
 ): number {
   const rivalCells = currentCells
     .filter((cell) => {

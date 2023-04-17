@@ -4,10 +4,11 @@ import IconRobot from '../../assets/robot.png';
 import IconHuman from '../../assets/human.png';
 import { Cross } from '../Cross/Cross';
 import { Zero } from '../Zero/Zero';
+import { ESign, EPlayerType, Player } from '../CrissCrossGame/types';
 
 type PlayerInfoProps = {
-  nextTurn: 'X' | 'O' | 'NONE';
-  player: { sign: 'X' | 'O' | 'NONE'; type: 'HUMAN' | 'ROBOT' | 'NONE' };
+  nextTurn: ESign;
+  player: Player;
   title: string;
   isWinner: boolean;
 };
@@ -31,11 +32,15 @@ export class PlayerInfo extends Component<PlayerInfoProps> {
         <p className='payer-info'>
           <span className={playerTitleClass}>{title}</span>
           <img
-            src={player.type === 'HUMAN' ? IconHuman : IconRobot}
-            alt={player.type === 'HUMAN' ? 'human' : 'robot'}
+            src={player.type === EPlayerType.HUMAN ? IconHuman : IconRobot}
+            alt={
+              player.type === EPlayerType.HUMAN
+                ? 'Player human'
+                : 'Player robot'
+            }
           />
           <span className='payer-info__sign'>
-            {player.sign === 'X' ? <Cross /> : <Zero />}
+            {player.sign === ESign.X ? <Cross /> : <Zero />}
           </span>
           <span className='payer-info__win'>{isWinner && 'WIN!'}</span>
         </p>

@@ -2,13 +2,14 @@ import { Component } from 'react';
 import { Cross } from '../Cross/Cross';
 import { Zero } from '../Zero/Zero';
 import './GameSettings.css';
+import { ESign } from '../CrissCrossGame/types';
 
 type GameSettingsProps = {
-  playerOneSign: 'X' | 'O' | 'NONE';
+  playerOneSign: ESign;
   onHumanClick: () => void;
   onRobotClick: () => void;
-  onCrossClick: (sign: 'X' | 'O') => void;
-  onZeroClick: (sign: 'X' | 'O') => void;
+  onCrossClick: (sign: Exclude<ESign, ESign.NONE>) => void;
+  onZeroClick: (sign: Exclude<ESign, ESign.NONE>) => void;
 };
 
 type GameSettingsState = {};
@@ -23,9 +24,13 @@ export class GameSettings extends Component<
 
   render() {
     const signsClassX =
-      this.props.playerOneSign === 'X' ? 'modal__btn checked' : 'modal__btn';
+      this.props.playerOneSign === ESign.X
+        ? 'modal__btn checked'
+        : 'modal__btn';
     const signsClassO =
-      this.props.playerOneSign === 'O' ? 'modal__btn checked' : 'modal__btn';
+      this.props.playerOneSign === ESign.O
+        ? 'modal__btn checked'
+        : 'modal__btn';
 
     return (
       <div className='modal'>
@@ -36,13 +41,13 @@ export class GameSettings extends Component<
         <div className='modal_signs'>
           <button
             className={signsClassX}
-            onClick={() => this.props.onCrossClick('X')}
+            onClick={() => this.props.onCrossClick(ESign.X)}
           >
             <Cross />
           </button>
           <button
             className={signsClassO}
-            onClick={() => this.props.onZeroClick('O')}
+            onClick={() => this.props.onZeroClick(ESign.O)}
           >
             <Zero />
           </button>

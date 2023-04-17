@@ -94,3 +94,11 @@ Finished for now
 - Twitter - [@MishaninVasily](https://twitter.com/MishaninVasily)
 
 ## Acknowledgments
+
+> Thanks to my mentor Milovanov Constantin from [DSR Corporation](https://en.dsr-corporation.com/) for thorough review of the code.
+
+What I've refactored:
+
+- clean App.ts from any logic so make it root component of the app
+- change all strings into TS Enums and constants
+- moved types into separate files for corresponding components
