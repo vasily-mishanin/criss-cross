@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { Cell } from '../Cell/Cell';
 import './Grid.css';
-import soundStroke from '../../assets/sound-stroke.m4a';
 import { ESign, Winner } from '../CrissCrossGame/types';
+import { AUDIO_STROKE } from './constants';
 
 type GridProps = {
   handleClick: (id: number) => void;
@@ -110,9 +110,7 @@ export class Grid extends Component<GridProps, GridState> {
   }
 
   playSound() {
-    let currentAudioSourse = soundStroke;
-    let audioCross = new Audio(currentAudioSourse);
-    audioCross.play();
+    AUDIO_STROKE.play();
   }
 
   render() {

@@ -1,8 +1,5 @@
 import { Component, ReactNode } from 'react';
 import './CrissCrossGame.css';
-import soundCross from '../../assets/sound-cross.m4a';
-import soundZero from '../../assets/sound-zero.m4a';
-import soundOver from '../../assets/sound-game-over.m4a';
 import IconGitHub from '../../assets/github.png';
 import { findOptimalIndex, getWinner } from '../../utils/helpers';
 import { Zero } from '../Zero/Zero';
@@ -12,7 +9,13 @@ import { Grid } from '../Grid/Grid';
 import { Modal } from '../Modal/Modal';
 import { GameSettings } from '../GameSettings/GameSetings';
 import { AppProps, AppState, EMode, EPlayerType, ESign } from './types';
-import { INITIAL_CELLS, WIN_COMBINATIONS } from './constants';
+import {
+  AUDIO_CROSS,
+  AUDIO_RESTART,
+  AUDIO_ZERO,
+  INITIAL_CELLS,
+  WIN_COMBINATIONS,
+} from './constants';
 
 const initialState: AppState = {
   mode: EMode.NONE,
@@ -31,10 +34,6 @@ class CrissCrossGame extends Component<AppProps, AppState> {
     super(props);
     this.state = initialState;
   }
-
-  // componentDidUpdate(previousProps: any, previousState: any) {
-  //   console.log('componentDidUpdate');
-  // }
 
   componentDidMount(): void {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -184,8 +183,7 @@ class CrissCrossGame extends Component<AppProps, AppState> {
 
   handleStartNewGame = () => {
     this.setBackdrop();
-    let audioRestart = new Audio(soundOver);
-    audioRestart.play();
+    AUDIO_RESTART.play();
     this.setState(initialState);
   };
 
@@ -245,10 +243,12 @@ class CrissCrossGame extends Component<AppProps, AppState> {
   };
 
   playSound() {
-    let currentAudioSourse =
-      this.state.nextTurn === 'X' ? soundCross : soundZero;
-    let audio = new Audio(currentAudioSourse);
-    audio.play();
+    if (this.state.nextTurn === ESign.X) {
+      AUDIO_CROSS.play();
+    }
+    if (this.state.nextTurn === ESign.O) {
+      AUDIO_ZERO.play();
+    }
   }
 
   removeBackdrop() {
