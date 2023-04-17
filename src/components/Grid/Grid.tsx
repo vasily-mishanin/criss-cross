@@ -118,6 +118,20 @@ export class Grid extends Component<GridProps, GridState> {
 
     return (
       <section className='grid'>
+        {/* {currentCells.map((cell, index) => {
+          const cellData = { id: index, zero: cell.zero, cross: cell.zero };
+          return (
+            <Cell
+              cellData={cellData}
+              top={index !== 0 && index !== 1 && index !== 2}
+              right={index !== 2 && index !== 5 && index !== 8}
+              bottom={index !== 6 && index !== 7 && index !== 8}
+              left={index !== 0 && index !== 3 && index !== 6}
+              handleClick={handleClick}
+            />
+          );
+        })} */}
+
         <Cell
           id={0}
           top={false}

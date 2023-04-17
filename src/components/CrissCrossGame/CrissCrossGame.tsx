@@ -16,6 +16,7 @@ import {
   INITIAL_CELLS,
   WIN_COMBINATIONS,
 } from './constants';
+import { CellData } from '../Cell/types';
 
 const initialState: AppState = {
   mode: EMode.NONE,
@@ -50,25 +51,19 @@ class CrissCrossGame extends Component<AppProps, AppState> {
 
     this.setState(
       (prev) => {
-        const clickedCellIndex = prev.currentCells.findIndex(
+        const clickedCellInd = prev.currentCells.findIndex(
           (cell) => cell.id === id
         );
-
-        if (clickedCellIndex === -1) {
-          return;
-        }
-
         let updatedCells = [...prev.currentCells];
 
         if (
-          updatedCells[clickedCellIndex].cross ||
-          updatedCells[clickedCellIndex].zero
+          this.isNoSuchCellOrCellIsAlreadySelected(updatedCells, clickedCellInd)
         ) {
           return;
         }
 
-        updatedCells[clickedCellIndex] = {
-          ...updatedCells[clickedCellIndex],
+        updatedCells[clickedCellInd] = {
+          ...updatedCells[clickedCellInd],
           cross: prev.nextTurn === ESign.X ? true : false,
           zero: prev.nextTurn === ESign.O ? true : false,
         };
@@ -77,6 +72,7 @@ class CrissCrossGame extends Component<AppProps, AppState> {
           prev.nextTurn !== ESign.NONE && prev.nextTurn === ESign.X
             ? ESign.O
             : ESign.X;
+
         const newState: AppState = {
           ...prev,
           currentCells: updatedCells,
@@ -85,34 +81,12 @@ class CrissCrossGame extends Component<AppProps, AppState> {
         this.playSound();
         return newState;
       },
-      // after state chages, like useEffect, find winner/DRAW and game over
-      // OR continue the game (HUMAN or ROBOT)
-      () => {
-        const newWinner = getWinner(
-          this.state.currentCells,
-          this.state.winCombinations
-        );
-
-        if (newWinner) {
-          this.setState({
-            winner: { win: newWinner.win, combination: newWinner.combination },
-            gameOver: true,
-          });
-          return;
-        }
-
-        // every cell was checked => game over
-        if (this.state.currentCells.every((cell) => cell.zero || cell.cross)) {
-          this.setState({ gameOver: true });
-          return;
-        }
-
-        // keep playing
-        if (this.state.mode === EMode.PLAY_WITH_ROBOT) {
-          setTimeout(this.robotTurn, 1000);
-        }
-      }
+      () => this.findWinnerOrContinue({ robotTurn: true })
     );
+  }
+
+  isNoSuchCellOrCellIsAlreadySelected(cells: CellData[], id: number) {
+    return id === -1 || cells[id].cross || cells[id].zero;
   }
 
   // ROBOT TURN
@@ -151,35 +125,45 @@ class CrissCrossGame extends Component<AppProps, AppState> {
         return newState;
       },
       // AFTER STATE CHANGES
-      () => {
-        const newWinner = getWinner(
-          this.state.currentCells,
-          this.state.winCombinations
-        );
-
-        if (newWinner) {
-          this.setState({
-            winner: { win: newWinner.win, combination: newWinner.combination },
-            gameOver: true,
-          });
-          return;
-        }
-
-        // every cell was checked => game over
-        if (this.state.currentCells.every((cell) => cell.zero || cell.cross)) {
-          this.setState({ gameOver: true });
-          return;
-        }
-
-        // if you play with robot and click 'help' then robot should make two turns (help and his ones)
-        if (this.state.helpTurn && this.state.mode === EMode.PLAY_WITH_ROBOT) {
-          this.setState({ helpTurn: false }, () =>
-            setTimeout(this.robotTurn, 1000)
-          );
-        }
-      }
+      () => this.findWinnerOrContinue({ robotTurn: false })
     );
   };
+
+  // after state chages, like useEffect, find winner/DRAW and game over
+  // OR continue the game (HUMAN or ROBOT)
+  findWinnerOrContinue(turn: { robotTurn: boolean }) {
+    const { robotTurn } = turn;
+    const newWinner = getWinner(
+      this.state.currentCells,
+      this.state.winCombinations
+    );
+
+    if (newWinner) {
+      this.setState({
+        winner: { win: newWinner.win, combination: newWinner.combination },
+        gameOver: true,
+      });
+      return;
+    }
+
+    // every cell was checked => game over
+    if (this.state.currentCells.every((cell) => cell.zero || cell.cross)) {
+      this.setState({ gameOver: true });
+      return;
+    }
+
+    // if you play with robot - keep playing
+    if (this.state.mode === EMode.PLAY_WITH_ROBOT) {
+      // if you play with robot and click 'help' then robot should make two turns (help turn and its own turn)
+      if (this.state.helpTurn) {
+        this.setState({ helpTurn: false }, () =>
+          setTimeout(this.robotTurn, 1000)
+        );
+      } else if (robotTurn) {
+        setTimeout(this.robotTurn, 1000);
+      }
+    }
+  }
 
   handleStartNewGame = () => {
     this.setBackdrop();

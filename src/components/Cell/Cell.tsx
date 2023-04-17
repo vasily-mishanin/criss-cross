@@ -1,6 +1,7 @@
 import { Cross } from '../Cross/Cross';
 import { Zero } from '../Zero/Zero';
 import './Cell.css';
+import { CellData } from './types';
 
 type CellProps = {
   id: number;
@@ -11,6 +12,7 @@ type CellProps = {
   handleClick: (id: number) => void;
   cross?: boolean;
   zero?: boolean;
+  //  cellData: CellData;
 };
 
 export function Cell({
