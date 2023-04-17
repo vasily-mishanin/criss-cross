@@ -99,6 +99,7 @@ Finished for now
 
 What I've refactored:
 
-- clean App.ts from any logic so make it root component of the app
-- change all strings into TS Enums and constants
-- moved types into separate files for corresponding components
+- clean App.ts from any logic so make it root component of the app;
+- change all strings into TS Enums and constants;
+- moved types into separate files for corresponding components, though I've left types of props inside component .tsx file;
+- moved constants into corresponding files inside components folders;

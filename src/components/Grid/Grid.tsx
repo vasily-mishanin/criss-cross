@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react';
+import { Component } from 'react';
 import { Cell } from '../Cell/Cell';
 import './Grid.css';
 import soundStroke from '../../assets/sound-stroke.m4a';

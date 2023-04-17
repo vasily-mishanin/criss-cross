@@ -12,6 +12,7 @@ import { Grid } from '../Grid/Grid';
 import { Modal } from '../Modal/Modal';
 import { GameSettings } from '../GameSettings/GameSetings';
 import { AppProps, AppState, EMode, EPlayerType, ESign } from './types';
+import { INITIAL_CELLS, WIN_COMBINATIONS } from './constants';
 
 const initialState: AppState = {
   mode: EMode.NONE,
@@ -20,21 +21,8 @@ const initialState: AppState = {
   nextTurn: ESign.NONE,
   gameOver: false,
   winner: null,
-  currentCells: Array.from(Array(9).keys()).map((n) => ({
-    id: n,
-    zero: false,
-    cross: false,
-  })),
-  winCombinations: [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ],
+  currentCells: INITIAL_CELLS,
+  winCombinations: WIN_COMBINATIONS,
   helpTurn: false,
 };
 
@@ -44,9 +32,9 @@ class CrissCrossGame extends Component<AppProps, AppState> {
     this.state = initialState;
   }
 
-  componentDidUpdate(previousProps: any, previousState: any) {
-    console.log('componentDidUpdate');
-  }
+  // componentDidUpdate(previousProps: any, previousState: any) {
+  //   console.log('componentDidUpdate');
+  // }
 
   componentDidMount(): void {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;

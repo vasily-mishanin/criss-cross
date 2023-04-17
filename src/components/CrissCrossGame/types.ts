@@ -26,6 +26,8 @@ export enum EMode {
   NONE,
 }
 
+export type WinCombination = [number, number, number];
+
 export interface AppProps {}
 
 export interface AppState {
@@ -36,6 +38,6 @@ export interface AppState {
   gameOver: boolean;
   winner: Winner;
   currentCells: { id: number; zero: boolean; cross: boolean }[];
-  winCombinations: [number, number, number][];
+  winCombinations: WinCombination[];
   helpTurn: boolean;
 }
