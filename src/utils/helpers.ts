@@ -35,35 +35,12 @@ export function getWinner(
   return null;
 }
 
-function findCrossCheckedCells(
-  cells: { id: number; zero: boolean; cross: boolean }[]
-) {
-  return cells.reduce((checkedCells: number[], currentCell) => {
-    if (currentCell.cross && !currentCell.zero) {
-      checkedCells.push(currentCell.id);
-    }
-    return checkedCells;
-  }, []);
-}
-
-function findZeroCheckedCells(
-  cells: { id: number; zero: boolean; cross: boolean }[]
-) {
-  return cells.reduce((checkedCells: number[], currentCell) => {
-    if (!currentCell.cross && currentCell.zero) {
-      checkedCells.push(currentCell.id);
-    }
-    return checkedCells;
-  }, []);
-}
-
 export function findOptimalIndex(
   currentCells: { id: number; zero: boolean; cross: boolean }[],
   winCombinations: [number, number, number][],
   rival: Player
 ): number {
   const rivalCells = getRivalCells(currentCells, rival);
-
   const selectedCells = getSelectedCells(currentCells);
 
   // find FIRST combination, that allow rival to make win turn
@@ -111,6 +88,28 @@ function getRivalCells(
       }
     })
     .map((cell) => cell.id);
+}
+
+function findCrossCheckedCells(
+  cells: { id: number; zero: boolean; cross: boolean }[]
+) {
+  return cells.reduce((checkedCells: number[], currentCell) => {
+    if (currentCell.cross && !currentCell.zero) {
+      checkedCells.push(currentCell.id);
+    }
+    return checkedCells;
+  }, []);
+}
+
+function findZeroCheckedCells(
+  cells: { id: number; zero: boolean; cross: boolean }[]
+) {
+  return cells.reduce((checkedCells: number[], currentCell) => {
+    if (!currentCell.cross && currentCell.zero) {
+      checkedCells.push(currentCell.id);
+    }
+    return checkedCells;
+  }, []);
 }
 
 function getSelectedCells(

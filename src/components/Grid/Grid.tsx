@@ -25,7 +25,6 @@ export class Grid extends Component<GridProps, GridState> {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     setTimeout(() => {
-      console.log('DRAW LINE');
       if (this.props.winCombination !== null) {
         this.playSound();
         this.drawLine(this.props.winCombination);
@@ -34,7 +33,6 @@ export class Grid extends Component<GridProps, GridState> {
   }
 
   drawLine(combination: [number, number, number]) {
-    console.log('drawLine');
     const { winner } = this.props;
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -111,7 +109,6 @@ export class Grid extends Component<GridProps, GridState> {
 
   render() {
     const { handleClick, currentCells } = this.props;
-    console.log('currentCells ', currentCells);
 
     return (
       <section className={styles.grid}>

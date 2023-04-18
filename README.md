@@ -105,3 +105,7 @@ What I've refactored:
 - moved constants into corresponding files inside components folders;
 - created smaller functions insdie main game component to separate concerns;
 - refactor Grid drawing code to map props and not copypast Cell components;
+- break code into smaller functions and components;
+- move instances of Audio into constants to reduce delay;
+- rid off logs;
+- replace while loop with .find(() => {})
