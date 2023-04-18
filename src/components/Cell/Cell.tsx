@@ -1,16 +1,16 @@
-import { Cross } from '../Cross/Cross';
-import { Zero } from '../Zero/Zero';
+import { Cross } from '../ui/Cross/Cross';
+import { Zero } from '../ui/Zero/Zero';
 import './Cell.css';
+import { CellData } from './types';
 
 type CellProps = {
-  id: number;
   top: boolean;
   right: boolean;
   bottom: boolean;
   left: boolean;
   handleClick: (id: number) => void;
-  cross?: boolean;
-  zero?: boolean;
+
+  cellData: CellData;
 };
 
 export function Cell({
@@ -18,9 +18,7 @@ export function Cell({
   right,
   bottom,
   left,
-  id,
-  cross,
-  zero,
+  cellData,
   handleClick,
 }: CellProps) {
   const borderWidth = '3px';
@@ -36,9 +34,9 @@ export function Cell({
     <div
       className='cell'
       style={cellBordersStyle}
-      onClick={() => handleClick(id)}
+      onClick={() => handleClick(cellData.id)}
     >
-      {zero && <Zero />} {cross && <Cross />}
+      {cellData.zero && <Zero />} {cellData.cross && <Cross />}
     </div>
   );
 }

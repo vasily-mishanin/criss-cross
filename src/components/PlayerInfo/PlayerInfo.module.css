@@ -1,34 +1,34 @@
-.player-wrapper {
+.wrapper {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
 }
 
-.payer-info {
+.info {
   display: flex;
   gap: 1rem;
   align-items: center;
   justify-content: flex-start;
 }
 
-.payer-info img {
+.info img {
   width: 2rem;
 }
 
-.payer-info__title {
+.info__title {
   font-size: 1.25rem;
 }
 
-.payer-info__sign {
+.info__sign {
 }
 
-.payer-info__win {
+.info__win {
   color: var(--color-accent);
   font-size: 1.5rem;
   animation: win-text 0.5s ease-in alternate infinite;
   transform: scale(1);
 }
 
-.player-active {
+.active {
   text-decoration-style: wavy;
   text-decoration-color: var(--color-dark);
   text-decoration-line: underline;

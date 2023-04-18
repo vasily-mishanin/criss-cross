@@ -94,3 +94,18 @@ Finished for now
 - Twitter - [@MishaninVasily](https://twitter.com/MishaninVasily)
 
 ## Acknowledgments
+
+> Thanks to my mentor Milovanov Constantin from [DSR Corporation](https://en.dsr-corporation.com/) for thorough review of the code.
+
+What I've refactored:
+
+- clean App.ts from any logic so make it root component of the app;
+- change all strings into TS Enums and constants;
+- moved types into separate files for corresponding components, though I've left types of props inside component .tsx file;
+- moved constants into corresponding files inside components folders;
+- created smaller functions insdie main game component to separate concerns;
+- refactor Grid drawing code to map props and not copypast Cell components;
+- break code into smaller functions and components;
+- move instances of Audio into constants to reduce delay;
+- rid off logs;
+- replace while loop with .find(() => {})

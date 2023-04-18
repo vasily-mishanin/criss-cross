@@ -1,14 +1,15 @@
 import { Component } from 'react';
-import { Cross } from '../Cross/Cross';
-import { Zero } from '../Zero/Zero';
-import './GameSettings.css';
+import { Cross } from '../ui/Cross/Cross';
+import { Zero } from '../ui/Zero/Zero';
+import styles from './GameSettings.module.css';
+import { ESign } from '../CrissCrossGame/types';
 
 type GameSettingsProps = {
-  playerOneSign: 'X' | 'O' | 'NONE';
+  playerOneSign: ESign;
   onHumanClick: () => void;
   onRobotClick: () => void;
-  onCrossClick: (sign: 'X' | 'O') => void;
-  onZeroClick: (sign: 'X' | 'O') => void;
+  onCrossClick: (sign: Exclude<ESign, ESign.NONE>) => void;
+  onZeroClick: (sign: Exclude<ESign, ESign.NONE>) => void;
 };
 
 type GameSettingsState = {};
@@ -23,43 +24,47 @@ export class GameSettings extends Component<
 
   render() {
     const signsClassX =
-      this.props.playerOneSign === 'X' ? 'modal__btn checked' : 'modal__btn';
+      this.props.playerOneSign === ESign.X
+        ? [styles.modal__btn, styles.checked].join(' ')
+        : styles.modal__btn;
     const signsClassO =
-      this.props.playerOneSign === 'O' ? 'modal__btn checked' : 'modal__btn';
+      this.props.playerOneSign === ESign.O
+        ? [styles.modal__btn, styles.checked].join(' ')
+        : styles.modal__btn;
 
     return (
-      <div className='modal'>
-        <div className='modal__heading'>
+      <div className={styles.modal}>
+        <div className={styles.modal__heading}>
           <h2>Hi! Choose your sign</h2>
           <p>Crosses start the game</p>
         </div>
-        <div className='modal_signs'>
+        <div className={styles.modal__signs}>
           <button
             className={signsClassX}
-            onClick={() => this.props.onCrossClick('X')}
+            onClick={() => this.props.onCrossClick(ESign.X)}
           >
             <Cross />
           </button>
           <button
             className={signsClassO}
-            onClick={() => this.props.onZeroClick('O')}
+            onClick={() => this.props.onZeroClick(ESign.O)}
           >
             <Zero />
           </button>
         </div>
 
-        <div className='modal__controls'>
+        <div className={styles.modal__controls}>
           <button
-            className='modal__btn'
+            className={styles.modal__btn}
             onClick={this.props.onRobotClick}
-            disabled={this.props.playerOneSign === 'NONE'}
+            disabled={this.props.playerOneSign === ESign.NONE}
           >
             Play With Robot
           </button>
           <button
-            className='modal__btn'
+            className={styles.modal__btn}
             onClick={this.props.onHumanClick}
-            disabled={this.props.playerOneSign === 'NONE'}
+            disabled={this.props.playerOneSign === ESign.NONE}
           >
             Play With Human
           </button>
