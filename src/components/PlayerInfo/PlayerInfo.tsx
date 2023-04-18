@@ -2,8 +2,8 @@ import { Component, ReactNode } from 'react';
 import styles from './PlayerInfo.module.css';
 import IconRobot from '../../assets/robot.png';
 import IconHuman from '../../assets/human.png';
-import { Cross } from '../Cross/Cross';
-import { Zero } from '../Zero/Zero';
+import { Cross } from '../ui/Cross/Cross';
+import { Zero } from '../ui/Zero/Zero';
 import { ESign, EPlayerType, Player } from '../CrissCrossGame/types';
 
 type PlayerInfoProps = {

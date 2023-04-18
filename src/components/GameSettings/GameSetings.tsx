@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { Cross } from '../Cross/Cross';
-import { Zero } from '../Zero/Zero';
+import { Cross } from '../ui/Cross/Cross';
+import { Zero } from '../ui/Zero/Zero';
 import styles from './GameSettings.module.css';
 import { ESign } from '../CrissCrossGame/types';
 

@@ -1,5 +1,5 @@
-import { Cross } from '../Cross/Cross';
-import { Zero } from '../Zero/Zero';
+import { Cross } from '../ui/Cross/Cross';
+import { Zero } from '../ui/Zero/Zero';
 import './Cell.css';
 import { CellData } from './types';
 

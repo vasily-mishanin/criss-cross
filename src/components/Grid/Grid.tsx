@@ -43,7 +43,7 @@ export class Grid extends Component<GridProps, GridState> {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.lineWidth = 4;
       ctx.strokeStyle = winner && winner.win === ESign.X ? 'black' : 'blue';
-      let combinationStr = combination.join('');
+      const combinationStr = combination.join('');
 
       switch (combinationStr) {
         case '012':

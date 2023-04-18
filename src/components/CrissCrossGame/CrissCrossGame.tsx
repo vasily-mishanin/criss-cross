@@ -1,9 +1,8 @@
 import { Component, ReactNode } from 'react';
 import styles from './CrissCrossGame.module.css';
-import IconGitHub from '../../assets/github.png';
 import { findOptimalIndex, getWinner } from '../../utils/helpers';
-import { Zero } from '../Zero/Zero';
-import { Cross } from '../Cross/Cross';
+import { Zero } from '../ui/Zero/Zero';
+import { Cross } from '../ui/Cross/Cross';
 import { PlayerInfo } from '../PlayerInfo/PlayerInfo';
 import { Grid } from '../Grid/Grid';
 import { Modal } from '../Modal/Modal';
@@ -17,6 +16,8 @@ import {
   WIN_COMBINATIONS,
 } from './constants';
 import { CellData } from '../Cell/types';
+import { Button } from '../ui/Button/Button';
+import { Header } from '../Header/Header';
 
 const initialState: AppState = {
   mode: EMode.NONE,
@@ -54,7 +55,8 @@ class CrissCrossGame extends Component<AppProps, AppState> {
         const clickedCellInd = prev.currentCells.findIndex(
           (cell) => cell.id === id
         );
-        let updatedCells = [...prev.currentCells];
+
+        const updatedCells = [...prev.currentCells];
 
         if (
           this.isNoSuchCellOrCellIsAlreadySelected(updatedCells, clickedCellInd)
@@ -104,7 +106,7 @@ class CrissCrossGame extends Component<AppProps, AppState> {
 
     this.setState(
       (prev) => {
-        let updatedCells = [...prev.currentCells];
+        const updatedCells = [...prev.currentCells];
 
         updatedCells[robotGuessId] = {
           ...updatedCells[robotGuessId],
@@ -268,23 +270,7 @@ class CrissCrossGame extends Component<AppProps, AppState> {
 
     return (
       <div className={styles.app}>
-        <a
-          className={styles.app__heading}
-          href='https://github.com/vasily-mishanin/criss-cross'
-        >
-          <img src={IconGitHub} alt="project's github" />
-          <h1>Criss-Cross Game</h1>
-        </a>
-        <div className={styles.app__message}>
-          {this.state.gameOver && (
-            <>
-              <span className={styles.app__message_title}> Game Over! </span>
-              <span className={styles.app__message_result}>
-                {gameResult === ESign.NONE ? 'DRAW' : ''}
-              </span>{' '}
-            </>
-          )}
-        </div>
+        <Header gameOver={this.state.gameOver} gameResult={gameResult}></Header>
         <section className={styles.playersinfo}>
           <PlayerInfo
             title='Player 1'
@@ -308,19 +294,10 @@ class CrissCrossGame extends Component<AppProps, AppState> {
           winner={this.state.winner}
         />
         <div className={styles.controls}>
-          <button
-            className={styles.controls__btn}
-            onClick={this.handleStartNewGame}
-          >
-            Restart
-          </button>
-          <button
-            className={styles.controls__btn}
-            onClick={this.handleHelpTurn}
-          >
-            Help Turn
-          </button>
+          <Button onClick={this.handleStartNewGame}>Restart</Button>
+          <Button onClick={this.handleHelpTurn}>Help Turn</Button>
         </div>
+
         {/* MODAL */}
         {this.state.mode === EMode.NONE && (
           <Modal>
