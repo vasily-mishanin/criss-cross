@@ -30,7 +30,8 @@
   font-size: 1.5rem;
   text-decoration: none;
 }
-.players-info {
+
+.playersinfo {
   height: 170px;
   display: flex;
   flex-flow: column nowrap;

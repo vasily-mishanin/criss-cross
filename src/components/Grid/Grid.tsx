@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Cell } from '../Cell/Cell';
-import './Grid.css';
+import styles from './Grid.module.css';
 import { ESign, Winner } from '../CrissCrossGame/types';
 import { AUDIO_STROKE } from './constants';
 
@@ -114,7 +114,7 @@ export class Grid extends Component<GridProps, GridState> {
     console.log('currentCells ', currentCells);
 
     return (
-      <section className='grid'>
+      <section className={styles.grid}>
         {currentCells.map((cell) => {
           const cellData = { id: cell.id, cross: cell.cross, zero: cell.zero };
           const id = cellData.id;

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Cross } from '../Cross/Cross';
 import { Zero } from '../Zero/Zero';
-import './GameSettings.css';
+import styles from './GameSettings.module.css';
 import { ESign } from '../CrissCrossGame/types';
 
 type GameSettingsProps = {
@@ -25,20 +25,20 @@ export class GameSettings extends Component<
   render() {
     const signsClassX =
       this.props.playerOneSign === ESign.X
-        ? 'modal__btn checked'
-        : 'modal__btn';
+        ? [styles.modal__btn, styles.checked].join(' ')
+        : styles.modal__btn;
     const signsClassO =
       this.props.playerOneSign === ESign.O
-        ? 'modal__btn checked'
-        : 'modal__btn';
+        ? [styles.modal__btn, styles.checked].join(' ')
+        : styles.modal__btn;
 
     return (
-      <div className='modal'>
-        <div className='modal__heading'>
+      <div className={styles.modal}>
+        <div className={styles.modal__heading}>
           <h2>Hi! Choose your sign</h2>
           <p>Crosses start the game</p>
         </div>
-        <div className='modal_signs'>
+        <div className={styles.modal__signs}>
           <button
             className={signsClassX}
             onClick={() => this.props.onCrossClick(ESign.X)}
@@ -53,18 +53,18 @@ export class GameSettings extends Component<
           </button>
         </div>
 
-        <div className='modal__controls'>
+        <div className={styles.modal__controls}>
           <button
-            className='modal__btn'
+            className={styles.modal__btn}
             onClick={this.props.onRobotClick}
-            disabled={this.props.playerOneSign === 'NONE'}
+            disabled={this.props.playerOneSign === ESign.NONE}
           >
             Play With Robot
           </button>
           <button
-            className='modal__btn'
+            className={styles.modal__btn}
             onClick={this.props.onHumanClick}
-            disabled={this.props.playerOneSign === 'NONE'}
+            disabled={this.props.playerOneSign === ESign.NONE}
           >
             Play With Human
           </button>

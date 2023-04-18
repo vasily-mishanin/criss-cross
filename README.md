@@ -103,3 +103,5 @@ What I've refactored:
 - change all strings into TS Enums and constants;
 - moved types into separate files for corresponding components, though I've left types of props inside component .tsx file;
 - moved constants into corresponding files inside components folders;
+- created smaller functions insdie main game component to separate concerns;
+- refactor Grid drawing code to map props and not copypast Cell components;

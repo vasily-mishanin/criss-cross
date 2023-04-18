@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import './PlayerInfo.css';
+import styles from './PlayerInfo.module.css';
 import IconRobot from '../../assets/robot.png';
 import IconHuman from '../../assets/human.png';
 import { Cross } from '../Cross/Cross';
@@ -23,13 +23,15 @@ export class PlayerInfo extends Component<PlayerInfoProps> {
 
     const playerTitleClass =
       nextTurn === player.sign
-        ? 'payer-info__title player-active'
-        : 'payer-info__title';
-    const playerClass = isWinner ? 'player-wrapper winner' : 'player-wrapper';
+        ? [styles.info__title, styles.active].join(' ')
+        : styles.info__title;
+    const playerClass = isWinner
+      ? [styles.wrapper, styles.winner].join(' ')
+      : styles.wrapper;
 
     return (
       <div className={playerClass}>
-        <p className='payer-info'>
+        <p className={styles.info}>
           <span className={playerTitleClass}>{title}</span>
           <img
             src={player.type === EPlayerType.HUMAN ? IconHuman : IconRobot}
@@ -39,10 +41,10 @@ export class PlayerInfo extends Component<PlayerInfoProps> {
                 : 'Player robot'
             }
           />
-          <span className='payer-info__sign'>
+          <span className={styles.info__sign}>
             {player.sign === ESign.X ? <Cross /> : <Zero />}
           </span>
-          <span className='payer-info__win'>{isWinner && 'WIN!'}</span>
+          <span className={styles.info__win}>{isWinner && 'WIN!'}</span>
         </p>
       </div>
     );

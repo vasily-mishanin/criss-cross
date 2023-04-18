@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import './CrissCrossGame.css';
+import styles from './CrissCrossGame.module.css';
 import IconGitHub from '../../assets/github.png';
 import { findOptimalIndex, getWinner } from '../../utils/helpers';
 import { Zero } from '../Zero/Zero';
@@ -267,25 +267,25 @@ class CrissCrossGame extends Component<AppProps, AppState> {
         : ESign.NONE;
 
     return (
-      <div className='app'>
+      <div className={styles.app}>
         <a
-          className='app__heading'
+          className={styles.app__heading}
           href='https://github.com/vasily-mishanin/criss-cross'
         >
           <img src={IconGitHub} alt="project's github" />
           <h1>Criss-Cross Game</h1>
         </a>
-        <div className='app__message'>
+        <div className={styles.app__message}>
           {this.state.gameOver && (
             <>
-              <span className='app__message_title'> Game Over! </span>
-              <span className='app__message_result'>
+              <span className={styles.app__message_title}> Game Over! </span>
+              <span className={styles.app__message_result}>
                 {gameResult === ESign.NONE ? 'DRAW' : ''}
               </span>{' '}
             </>
           )}
         </div>
-        <section className='players-info'>
+        <section className={styles.playersinfo}>
           <PlayerInfo
             title='Player 1'
             player={this.state.playerOne}
@@ -307,11 +307,17 @@ class CrissCrossGame extends Component<AppProps, AppState> {
           }
           winner={this.state.winner}
         />
-        <div className='controls'>
-          <button className='controls__btn' onClick={this.handleStartNewGame}>
+        <div className={styles.controls}>
+          <button
+            className={styles.controls__btn}
+            onClick={this.handleStartNewGame}
+          >
             Restart
           </button>
-          <button className='controls__btn' onClick={this.handleHelpTurn}>
+          <button
+            className={styles.controls__btn}
+            onClick={this.handleHelpTurn}
+          >
             Help Turn
           </button>
         </div>
